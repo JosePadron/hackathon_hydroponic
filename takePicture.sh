@@ -1,1 +1,1 @@
-raspistill -vf -hf -o public/image.jpg
+raspistill -o public/image.jpg

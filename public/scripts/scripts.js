@@ -160,7 +160,7 @@ var App = function () {
                 ctx.drawImage(logo, 519, 326, logo.width, logo.height);
                 ctx.fillStyle = "white";
                 ctx.font="40px sans-serif";
-                ctx.fillText("#ReferHydro: " + app.rh + "%", 20, 380);
+                ctx.fillText("#ReferHydro: " + app.rh + "% RH", 20, 380);
             }
 
           setTimeout(function(){
@@ -177,11 +177,13 @@ var App = function () {
 
   // START EVERYTHING UP!
   var app = new App();
-      app.rh = 0;
+      app.rh = 50;
 
   jQuery(document).on('ready', function () {
     socket.emit('get_humidity');
     socket.emit('take_picture');
+    socket.emit('share');
+    socket.emit('start_timer');
 
     jQuery("#btn-share").on('click', function () {
       console.log("Share");
@@ -232,7 +234,7 @@ var App = function () {
     app.updateImage();
   });
 
-  socket.on('oven_humidity', function(rh){
+  socket.on('humidity', function(rh){
     console.log('Humidity: ' + rh);
     app.rh = rh;
   });
@@ -244,3 +246,4 @@ var App = function () {
       app.notify("Cycle has Stopped");
     }
   });
+
