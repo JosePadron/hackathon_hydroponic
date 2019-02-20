@@ -16,15 +16,21 @@ const camera = new Raspistill({
 
 function UpdateRelay(relay, state)
 {
-   let {PythonShell} = require('python-shell')
-    
-   let options = {
-     mode: 'text',
-     pythonOptions: ['-u'], // get print results in real-time
-     args: [relay, (state ? 1:0)]
+   options = {
+       mode: 'text',
+       pythonOptions: ['-u'], // get print results in real-time
+       scriptPath: 'python',     
+       args: [relay, (state ? 1:0)]
     };
 
-   PythonShell.run('relay.py', options, function (err, results) {
+  runPythonScript('relay.py', options)
+}
+
+function runPythonScript(name, options)
+{
+   let {PythonShell} = require('python-shell')
+
+   PythonShell.run(name, options, function (err, results) {
        if (err) throw err;
        // results is an array consisting of messages collected during execution
        console.log('results: %j', results);
@@ -32,20 +38,14 @@ function UpdateRelay(relay, state)
 }
 
 function SendTweet()
-{
-   let {PythonShell} = require('python-shell')
-    
-   let options = {
+{   
+   options = {
      mode: 'text',
      pythonOptions: ['-u'], // get print results in real-time
      scriptPath: 'tweet',
     };
 
-   PythonShell.run('tweet.py', options, function (err, results) {
-       if (err) throw err;
-       // results is an array consisting of messages collected during execution
-       console.log('results: %j', results);
-   });
+   runPythonScript('tweet.py', options);
 }
 
 var ON = 1

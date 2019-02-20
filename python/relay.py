@@ -5,6 +5,7 @@ import sys
 import time
 
 sys.path.insert(0, '/usr/github/hackathon_hydroponic/Seeed-Studio-Relay-Board/')
+sys.path.insert(0, '/usr/github/hackathon_hydroponic/python/')
 
 from relay_lib_seeed_update import *
 
