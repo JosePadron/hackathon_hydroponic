@@ -94,7 +94,9 @@ io.on('connection', function(client) {
 
     setInterval(function(){
         io.emit('take_picture');
-    }, 30000);
+        io.emit('share');    
+    }, 120000);
+
     client.on('take_picture', function(){
         console.log("io.on:Taking picture");
         UpdateLight(ON);
