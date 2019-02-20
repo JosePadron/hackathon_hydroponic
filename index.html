@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>BakeWatch</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">  
+  <link rel="stylesheet" href="/public/styles/styles.css">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <script src="http://code.jquery.com/jquery-2.1.3.js"></script>
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/public/scripts/scripts.js"></script>
+</body>
+
+  <nav class="demo">
+    <a href="#" class="brand">
+        <span>BakeWatch - </span><span id="message">Welcome</span>
+    </a>
+  </nav>
+
+  <div class="container">
+        
+    <div id="oven-image-container">
+      <h2>
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          <span class="sr-only">Loading...</span>
+      </h2>
+      <div class="icon-toolbar">
+          <i id="btn-oven-off" class="fa fa-power-off fa-3x" aria-hidden="true"></i>                
+          <i id="btn-light-toggle" class="fa fa-lightbulb-o fa-3x" aria-hidden="true"></i>            
+          <i id="btn-capture" class="fa fa-camera-retro fa-3x" aria-hidden="true"></i>
+          <i id="btn-timelapse" class="fa fa-clock-o fa-3x" aria-hidden="true"></i>
+          <i id="btn-share" class="fa fa-facebook-official fa-3x" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <!-- <button id="btn-capture" href="#" class='success'>Capture Photo</button> -->
+      <!-- <button id="btn-timelapse" class='success'>Capture Timelapse</button> -->
+      <!-- <button id="btn-light-toggle" class='success'>Light</button> -->
+      <button id="btn-temp">Get Oven Temp</button>
+      <button id="btn-time-left">Get Time Left</button>
+      <!-- <button id="btn-share" class='success' >Share on Facebook</button> -->
+      <!-- <button id="btn-oven-off" class='error'>Turn Oven Off</button> -->
+    </div>
+
+    <div class="modal">
+      <input id="modal_1" type="checkbox" />
+      <label for="modal_1" class="overlay"></label>
+      <article>
+        <header>
+          <h3>Success!</h3>
+          <label for="modal_1" class="close">&times;</label>
+        </header>
+        <section class="content">
+          Your delicious food has been shared with your Facebook friends!
+        </section>
+        <footer>
+          <label for="modal_1" class="button success">
+            Ok
+          </label>
+        </footer>
+      </article>
+    </div>
+    
+  </div>
+
+</html>
+
