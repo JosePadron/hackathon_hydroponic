@@ -110,7 +110,7 @@ function fileUpload(access_token) {
 
   // console.log("connecting to: " + data.val().server_ip);
   // var socket = io.connect('http://' + data.val().server_ip + ':80');
-  var socket = io.connect('http://192.168.1.31:80');
+  var socket = io.connect('http://10.203.6.107:80');
 
 // Constructor
 var App = function () {
