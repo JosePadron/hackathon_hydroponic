@@ -60,7 +60,7 @@ io.on('connection', function(client) {
     client.on('take_picture', function(){
         console.log("io.on:Taking picture");
         UpdateLight(ON);
-        currentLightState = lighState;
+        currentLightState = lightState;
 
         camera.takePhoto().then(function(photo){
             io.emit('get_picture', photo);
@@ -82,13 +82,13 @@ io.on('connection', function(client) {
 
     client.on('fan1_toggle', function(){
         console.log("io.on:Fan1 Toggle");
-        fan1State = !fan1tState;
+        fan1State = !fan1State;
         UpdateFan1(fan1State);
     });
 
     client.on('fan2_toggle', function(){
         console.log("io.on:Fan2 Toggle");
-        fan2State = !fan2tState;
+        fan2State = !fan2State;
         UpdateFan2(fan2State);
     });
 
@@ -97,7 +97,7 @@ io.on('connection', function(client) {
         StopAll();
     });
 
-    client.on('get_humidity, function(){
+    client.on('get_humidity', function(){
         console.log("io.on:Get humidity");
     });
 });
