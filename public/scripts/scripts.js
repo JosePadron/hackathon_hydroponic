@@ -98,7 +98,7 @@ function fileUpload(access_token) {
       url: 'https://graph.facebook.com/me/photos', // or replace *me* with albumid
       success: function (s) {
         console.log("Success", s);
-        app.successMessage();        
+        app.successMessage();
       },
       error: function (e) {
         console.log("Error", e);
@@ -110,13 +110,13 @@ function fileUpload(access_token) {
 
   // console.log("connecting to: " + data.val().server_ip);
   // var socket = io.connect('http://' + data.val().server_ip + ':80');
-  var socket = io.connect('http://10.203.9.42:80');
+  var socket = io.connect('http://192.168.1.31:80');
 
 // Constructor
 var App = function () {
     console.log("App Loaded");
   }
-  
+
   App.prototype.submit_photo = function () {
     FB.login(function (response) {
       console.log(response);
@@ -125,9 +125,9 @@ var App = function () {
       scope: 'publish_actions'
     });
   }
-  
+
   App.prototype.successMessage = function(){
-    var modal_switch = document.getElementById('modal_1'); 
+    var modal_switch = document.getElementById('modal_1');
     modal_switch.checked = true;
   }
 
@@ -144,7 +144,7 @@ var App = function () {
       });
     }
   };
-  
+
   App.prototype.updateImage = function(){
     jQuery("#oven-image-container canvas, #oven-image-container h2").remove();
         var image = new Image(680, 420);
@@ -161,7 +161,7 @@ var App = function () {
                 ctx.fillStyle = "white";
                 ctx.font="40px sans-serif";
                 if( app.temp < 65000 && app.time_left == 0){
-                  ctx.fillText("#BakeWatch: " + app.temp + "°F", 20, 380);                  
+                  ctx.fillText("#BakeWatch: " + app.temp + "°F", 20, 380);
                 } else if( app.temp < 65000 && app.time_left > 0){
                   ctx.fillText(app.temp + "°F w/ " + app.time_left + " mins left", 20, 380);
                 } else if( app.temp >= 65000 && app.time_left > 0){
@@ -170,7 +170,7 @@ var App = function () {
                   ctx.fillText("#BakeWatch", 20, 380);
                 }
             }
-    
+
           setTimeout(function(){
             var canvas3 = document.createElement('canvas');
             var ctx3 = canvas3.getContext('2d');
@@ -182,24 +182,24 @@ var App = function () {
           }, 400);
     }
 
-  
+
   // START EVERYTHING UP!
   var app = new App();
       app.temp = 0;
       app.time_left = 0;
-  
+
   jQuery(document).on('ready', function () {
     socket.emit('get_oven_time_left');
     socket.emit('get_oven_temperature');
     socket.emit('take_picture');
 
-    
+
     jQuery("#btn-share").on('click', function () {
       console.log("Share");
       app.submit_photo();
     });
 
-    jQuery("#btn-capture").on('click', function(){   
+    jQuery("#btn-capture").on('click', function(){
       console.log("Take Picture");
       socket.emit('get_oven_time_left');
       socket.emit('get_oven_temperature');
@@ -254,4 +254,3 @@ var App = function () {
       app.notify("Cycle has Stopped");
     }
   });
-
