@@ -160,15 +160,7 @@ var App = function () {
                 ctx.drawImage(logo, 519, 326, logo.width, logo.height);
                 ctx.fillStyle = "white";
                 ctx.font="40px sans-serif";
-                if( app.temp < 65000 && app.time_left == 0){
-                  ctx.fillText("#BakeWatch: " + app.temp + "°F", 20, 380);
-                } else if( app.temp < 65000 && app.time_left > 0){
-                  ctx.fillText(app.temp + "°F w/ " + app.time_left + " mins left", 20, 380);
-                } else if( app.temp >= 65000 && app.time_left > 0){
-                  ctx.fillText("#BakeWatch: " + app.time_left + " mins left", 20, 380);
-                } else {
-                  ctx.fillText("#BakeWatch", 20, 380);
-                }
+                ctx.fillText("#ReferHydro: " + app.rh + "%", 20, 380);
             }
 
           setTimeout(function(){
@@ -185,14 +177,11 @@ var App = function () {
 
   // START EVERYTHING UP!
   var app = new App();
-      app.temp = 0;
-      app.time_left = 0;
+      app.rh = 0;
 
   jQuery(document).on('ready', function () {
-    socket.emit('get_oven_time_left');
-    socket.emit('get_oven_temperature');
+    socket.emit('get_humidity');
     socket.emit('take_picture');
-
 
     jQuery("#btn-share").on('click', function () {
       console.log("Share");
@@ -201,35 +190,40 @@ var App = function () {
 
     jQuery("#btn-capture").on('click', function(){
       console.log("Take Picture");
-      socket.emit('get_oven_time_left');
-      socket.emit('get_oven_temperature');
+      socket.emit('get_humidity');
       socket.emit('take_picture');
     });
 
     jQuery("#btn-light-toggle").on('click', function(){
       console.log("Light Toggle");
-      socket.emit('oven_light_toggle');
+      socket.emit('light_toggle');
     });
 
-    jQuery("#btn-oven-off").on('click', function(){
-      console.log("Oven Off");
-      socket.emit('oven_temp_off');
+    jQuery("#btn-water-toggle").on('click', function(){
+      console.log("Water Toggle");
+      socket.emit('water_toggle');
     });
 
-    jQuery("#btn-temp").on('click', function(){
-      console.log("Get Oven Temp");
-      socket.emit('get_oven_temperature');
+    jQuery("#btn-fan1-toggle").on('click', function(){
+      console.log("Fan1 Toggle");
+      socket.emit('fan1_toggle');
     });
 
-    jQuery("#btn-time-left").on('click', function(){
-      console.log("Time Left");
-      socket.emit('get_oven_time_left');
+    jQuery("#btn-fan2-toggle").on('click', function(){
+      console.log("Fan2 Toggle");
+      socket.emit('fan2_toggle');
     });
 
-    jQuery("#btn-timelapse").on('click', function(){
-      console.log("TimeLapse");
-      socket.emit('take_timelapse');
+    jQuery("#btn-all-off").on('click', function(){
+      console.log("All Off");
+      socket.emit('all_off');
     });
+
+    jQuery("#btn-humidity").on('click', function(){
+      console.log("Get humidity");
+      socket.emit('get_humidity');
+    });
+
   });
 
   socket.on('get_picture', function(){
@@ -237,14 +231,9 @@ var App = function () {
     app.updateImage();
   });
 
-  socket.on('oven_temperature', function(temp){
-    console.log('Temp: ' + temp);
-    app.temp = temp;
-  });
-
-  socket.on('oven_time_left', function(time_left){
-    console.log('time_left Time: '+ time_left);
-    app.time_left = time_left;
+  socket.on('oven_humidity', function(rh){
+    console.log('Humidity: ' + rh);
+    app.rh = rh;
   });
 
   socket.on('notify', function(message){

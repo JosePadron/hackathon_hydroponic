@@ -17,15 +17,34 @@ const camera = new Raspistill({
 var ON = 1
 var OFF = 0
 var lightState = OFF;
+var currentLightState = OFF;
+var waterState = OFF;
+var fan1State = OFF;
+var fan2State = OFF;
+
+function UpdateWaterPump(state)
+{
+   console.log("Update water: ", state);
+}
+
+function UpdateFan1(state)
+{
+   console.log("Update fan1: ", state);
+}
+
+function UpdateFan2(state)
+{
+   console.log("Update fan2: ", state);
+}
 
 function UpdateLight(state)
 {
-   console.log("Update light:", state);
+   console.log("Update light: ", state);
 }
 
-function StopCooking()
+function StopAll()
 {
-   console.log("Stop cooking")
+   console.log("Stop all")
 }
 
 function GetU16(data)
@@ -41,65 +60,45 @@ io.on('connection', function(client) {
     client.on('take_picture', function(){
         console.log("io.on:Taking picture");
         UpdateLight(ON);
+        currentLightState = lighState;
 
         camera.takePhoto().then(function(photo){
             io.emit('get_picture', photo);
-            UpdateLight(OFF);
+            UpdateLight(currentLightState);
         });
     });
 
-    client.on('take_timelapse', function(){
-        const RaspistillInterruptError = require('node-raspistill').RaspistillInterruptError;
-        const timelapse = new Raspistill({
-            verticalFlip: true,
-            width: 680,
-            height: 420,
-            outputDir: './public/timelapse/',
-            encoding: 'png'
-        });
-
-        UpdateLight(ON);
-        console.log("Taking timelapse photo");
-        timelapse.timelapse('image%04d', 500, 10000, (image) => {
-            console.log("Taking timelapse photo");
-        }).then(() => {
-            // timelapse ended
-            console.log("Timelapse has ended");
-            var GIFEncoder = require('gifencoder');
-            var encoder = new GIFEncoder(680, 420);
-            var pngFileStream = require('png-file-stream');
-            var fs = require('fs');
-
-            pngFileStream('public/timelapse/*.png')
-              .pipe(encoder.createWriteStream({ repeat: -1, delay: 500, quality: 10 }))
-              .pipe(fs.createWriteStream('myanimated.gif'));
-
-            UpdateLight(OFF);
-        }).catch((err) => {
-            console.error(err);
-            // something bad happened
-            UpdateLight(OFF);
-            console.log(err instanceof RaspistillInterruptError) // true, raspistill was interrupted;
-        });
-    });
-
-    client.on('oven_light_toggle', function(){
-        console.log("io.on:Oven Light Toggle");
+    client.on('light_toggle', function(){
+        console.log("io.on:Light Toggle");
         lightState = !lightState;
         UpdateLight(lightState);
     });
 
-    client.on('oven_temp_off', function(){
-        console.log("io.on:Oven Off");
-        StopCooking();
+    client.on('water_toggle', function(){
+        console.log("io.on:Water Toggle");
+        waterState = !waterState;
+        UpdateWaterPump(waterState);
     });
 
-    client.on('get_oven_temperature', function(){
-        console.log("io.on:Oven temperature");
+    client.on('fan1_toggle', function(){
+        console.log("io.on:Fan1 Toggle");
+        fan1State = !fan1tState;
+        UpdateFan1(fan1State);
     });
 
-    client.on('get_oven_time_left', function(){
-        console.log("io.on:Oven time left");
+    client.on('fan2_toggle', function(){
+        console.log("io.on:Fan2 Toggle");
+        fan2State = !fan2tState;
+        UpdateFan2(fan2State);
+    });
+
+    client.on('all_off', function(){
+        console.log("io.on:All Off");
+        StopAll();
+    });
+
+    client.on('get_humidity, function(){
+        console.log("io.on:Get humidity");
     });
 });
 
