@@ -1,0 +1,3 @@
+[submodule "Seeed-Studio-Relay-Board"]
+	path = Seeed-Studio-Relay-Board
+	url = https://github.com/johnwargo/Seeed-Studio-Relay-Board.git

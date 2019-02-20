@@ -14,6 +14,23 @@ const camera = new Raspistill({
     encoding: 'png'
 });
 
+function UpdateRelay(relay, state)
+{
+   let {PythonShell} = require('python-shell')
+    
+   let options = {
+     mode: 'text',
+     pythonOptions: ['-u'], // get print results in real-time
+     args: [relay, (state ? 1:0)]
+    };
+
+   PythonShell.run('relay.py', options, function (err, results) {
+       if (err) throw err;
+       // results is an array consisting of messages collected during execution
+       console.log('results: %j', results);
+   });
+}
+
 var ON = 1
 var OFF = 0
 var lightState = OFF;
@@ -25,21 +42,25 @@ var fan2State = OFF;
 function UpdateWaterPump(state)
 {
    console.log("Update water: ", state);
+   UpdateRelay(1, state);
 }
 
 function UpdateFan1(state)
 {
    console.log("Update fan1: ", state);
+   UpdateRelay(2, state);
 }
 
 function UpdateFan2(state)
 {
    console.log("Update fan2: ", state);
+   UpdateRelay(3, state);
 }
 
 function UpdateLight(state)
 {
    console.log("Update light: ", state);
+   UpdateRelay(3, state);
 }
 
 function StopAll()
