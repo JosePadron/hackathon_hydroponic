@@ -19,7 +19,7 @@ function UpdateRelay(relay, state)
    options = {
        mode: 'text',
        pythonOptions: ['-u'], // get print results in real-time
-       scriptPath: 'python',
+       scriptPath: 'python',     
        args: [relay, (state ? 1:0)]
     };
 
@@ -38,7 +38,7 @@ function runPythonScript(name, options)
 }
 
 function SendTweet()
-{
+{   
    console.log('Sending Tweet');
    options = {
      mode: 'text',
@@ -61,7 +61,6 @@ function UpdateWaterPump(state)
 {
    console.log("Update water: ", state);
    UpdateRelay(1, state);
-   setTimeout(function(){ UpdateWaterPump(Off); }, 2000);
 }
 
 function UpdateFan1(state)
@@ -94,7 +93,7 @@ function GetU16(data)
 
 function PushHumidity()
 {
-   io.emit('humidity', getRandomInt(40,60));
+   io.emit('humidity', getRandomInt(40,60)); 
 }
 
 function TakePhoto()
@@ -159,7 +158,7 @@ io.on('connection', function(client) {
 
     client.on('get_humidity', function(){
         console.log("io.on:Get humidity");
-        PushHumidity();
+        PushHumidity(); 
     });
 
     client.on('share', function(){
