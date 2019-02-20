@@ -31,6 +31,23 @@ function UpdateRelay(relay, state)
    });
 }
 
+function SendTweet()
+{
+   let {PythonShell} = require('python-shell')
+    
+   let options = {
+     mode: 'text',
+     pythonOptions: ['-u'], // get print results in real-time
+     scriptPath: 'tweet',
+    };
+
+   PythonShell.run('tweet.py', options, function (err, results) {
+       if (err) throw err;
+       // results is an array consisting of messages collected during execution
+       console.log('results: %j', results);
+   });
+}
+
 var ON = 1
 var OFF = 0
 var lightState = OFF;
@@ -120,6 +137,11 @@ io.on('connection', function(client) {
 
     client.on('get_humidity', function(){
         console.log("io.on:Get humidity");
+    });
+
+    client.on('share', function(){
+        console.log("io.on:Share");
+        SendTweet();
     });
 });
 

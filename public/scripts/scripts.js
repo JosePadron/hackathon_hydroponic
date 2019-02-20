@@ -185,7 +185,8 @@ var App = function () {
 
     jQuery("#btn-share").on('click', function () {
       console.log("Share");
-      app.submit_photo();
+      //app.submit_photo();
+      socket.emit('share');
     });
 
     jQuery("#btn-capture").on('click', function(){

@@ -23,6 +23,6 @@ myTweet = Twython(C_key,C_secret,A_token,A_secret)
 #twitter.update_status_with_media(status='Check out my Garden', media='/home/pi/Pictures/image.jpg')
 
 #insert image address below
-photo = open('/home/pi/Pictures/image.jpg', 'rb')
+photo = open('/usr/github/hackathon_hydroponic/public/image.png', 'rb')
 response = myTweet.upload_media(media=photo)
 myTweet.update_status(status='Check out how my Hydroponics is looking! :)', media_ids=[response['media_id']])
