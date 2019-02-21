@@ -158,7 +158,7 @@ var App = function () {
             image.onload = function(){
                 ctx.drawImage(image, 0, 0, image.width, image.height);
                 ctx.drawImage(logo, 519, 326, logo.width, logo.height);
-                ctx.fillStyle = "white";
+                ctx.fillStyle = "blue";
                 ctx.font="30px sans-serif";
                 ctx.fillText("#TeamHydroPi: RH " + app.rh + "% " + app.temp + " F", 20, 360);
             }
