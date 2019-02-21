@@ -159,8 +159,8 @@ var App = function () {
                 ctx.drawImage(image, 0, 0, image.width, image.height);
                 ctx.drawImage(logo, 519, 326, logo.width, logo.height);
                 ctx.fillStyle = "white";
-                ctx.font="40px sans-serif";
-                ctx.fillText("#ReferHydro: " + app.rh + "% RH", 20, 380);
+                ctx.font="30px sans-serif";
+                ctx.fillText("#TeamHydroPi: RH " + app.rh + "% " + app.temp + " F", 20, 360);
             }
 
           setTimeout(function(){
@@ -178,6 +178,7 @@ var App = function () {
   // START EVERYTHING UP!
   var app = new App();
       app.rh = 50;
+      app.temp = 70;
 
   jQuery(document).on('ready', function () {
     socket.emit('get_humidity');
@@ -234,9 +235,10 @@ var App = function () {
     app.updateImage();
   });
 
-  socket.on('humidity', function(rh){
-    console.log('Humidity: ' + rh);
-    app.rh = rh;
+  socket.on('humidity', function(data){
+    console.log('Humidity: ' + data.rh + " " + data.temp);
+    app.rh = data.rh;
+    app.temp = data.temp;
   });
 
   socket.on('notify', function(message){

@@ -25,4 +25,4 @@ myTweet = Twython(C_key,C_secret,A_token,A_secret)
 #insert image address below
 photo = open('/usr/github/hackathon_hydroponic/public/image.png', 'rb')
 response = myTweet.upload_media(media=photo)
-myTweet.update_status(status='Check out how my Hydroponics is looking! :)', media_ids=[response['media_id']])
+myTweet.update_status(status='#TeamHydroPi Check out how my Hydroponics is looking! :)', media_ids=[response['media_id']])

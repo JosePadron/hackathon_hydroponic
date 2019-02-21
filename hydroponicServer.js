@@ -52,7 +52,7 @@ function SendTweet()
 var ON = 1
 var OFF = 0
 var lightState = OFF;
-var currentLightState = ON;
+var currentLightState = OFF;
 var waterState = OFF;
 var fan1State = OFF;
 var fan2State = OFF;
@@ -93,19 +93,19 @@ function GetU16(data)
 
 function PushHumidity()
 {
-   io.emit('humidity', getRandomInt(40,60)); 
+   io.emit('humidity', { rh:getRandomInt(40,60), temp:getRandomInt(70,75) });  
 }
 
 function TakePhoto()
 {
   console.log('Taking Photo');
 
-  UpdateLight(ON);
+  //UpdateLight(ON);
   currentLightState = lightState;
 
   camera.takePhoto().then(function(photo){
     io.emit('get_picture', photo);
-    UpdateLight(currentLightState);
+    // UpdateLight(currentLightState);
   });
 }
 
@@ -113,7 +113,7 @@ io.on('connection', function(client) {
      UpdateWaterPump(OFF);
      UpdateFan1(OFF);
      UpdateFan2(OFF)
-     UpdateLight(ON);
+     UpdateLight(OFF);
 
      interval = setInterval(function(){
        console.log("io.connection: Start periodic timer");
